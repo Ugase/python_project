@@ -1,0 +1,14 @@
+name nand
+list 2
+input a b out
+s = and a b out
+a = not s
+out a
+
+
+->
+
+def nand(self, a, b, out):
+    
+    self.and_op(a, b, out)
+    a = self.not_op(s)
