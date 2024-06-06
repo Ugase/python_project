@@ -1,0 +1,4 @@
+Maple Mono NF
+JetBrainsMono Nerd Font
+FiraCode Nerd Font
+Hack Nerd Font
