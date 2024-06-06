@@ -2,7 +2,7 @@ import json
 import blessed
 
 term = blessed.Terminal()
-center = term.width // 2  # Integer division for efficiency
+center = term.width // 2
 
 
 def create_unit(subject:dict, name:str):
