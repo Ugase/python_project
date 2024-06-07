@@ -1,1 +1,1 @@
-while True: print(eval(f"{input("Number: ")} {input("Operator: ").strip(" ")} {input("Number: ")}"))
+while True:print(eval(f"{input("Number: ")}{input("Operator: ")}{input("Number: ")}"))
