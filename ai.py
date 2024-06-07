@@ -1,1 +1,1 @@
-while True:print(eval(f"{input("Number: ")}{input("Operator: ")}{input("Number: ")}"))
+while True:print(eval(f"{int(input("Number: "))}{input("Operator: ")}{int(input("Number: "))}"))
