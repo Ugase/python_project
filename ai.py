@@ -1,1 +1,1 @@
-while True:print(eval(f"{int(input("Number: "))}{input("Operator: ")}{int(input("Number: "))}"))
+while True:print({"+": lambda x, y: x + y, "-": lambda x, y: x - y, "*": lambda x, y: x * y, "/": lambda x, y: x / y if y!= 0 else "Error: Division by zero!"}[input("Operator: ")](float(input("Number: ")), float(input("Number: "))))
