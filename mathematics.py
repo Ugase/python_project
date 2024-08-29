@@ -1,7 +1,7 @@
 """
 Mathematics Module
 ==================
-by Denzel A. Mondia
+by Ugase (github)
 
 In almost every function there is a `print_statement` parameter. Heres what it means:
 Whether it should print details and return the answer or just return the answer
