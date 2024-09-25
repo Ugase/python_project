@@ -24,11 +24,6 @@ import math
 from decimal import Decimal as D
 from functools import reduce
 from math import sqrt, gcd
-try:
-    from programming_python import debug
-    deb = True
-except ImportError:
-    deb = False
 
 typing_speed_average = 0.13
 e = 2.718281828459045
@@ -51,6 +46,8 @@ class FactorizationError(Exception):
 class MixedFractionError(Exception):
     """For the `improper_fraction` function"""
 
+def rb(it: list):
+    return str(it).replace("[", "").replace("]", "")
 
 def simplify(n: int, d: int, print_statement=True):
     """
@@ -93,27 +90,6 @@ def divide_fractions(n: int, d: int, n2: int, d2: int, print_statement=True):
     multiply_fractions(n, d, d2, n2, print_statement)
 
 
-def multiply_fractions_then_simplyfiy(
-    n: int, d: int, n2: int, d2: int, print_statement=True
-):
-    """Multiply fractions then simplifys the result"""
-    t = multiply_fractions(n, d, n2, d2)
-    ll = simplify(t[0], t[1], False)
-    if print_statement:
-        print(f"The answer is {ll[0]} over {ll[1]}")
-    return ll
-
-
-def plus_fractions_then_simplify(
-    n: int, d: int, n2: int, d2: int, print_statement=True
-):
-    """Finds the sum of two fractions and simplifys the result"""
-    t = plus_fractions(n, d, n2, d2)
-    g = simplify(int(t[0]), int(t[1]), False)
-    if print_statement:
-        print(f"The answer is {g[0]} over {g[1]}")
-
-
 def mixed_fraction(
     big_boy: int,
     small_boy_one_or_numerator: int,
@@ -128,7 +104,7 @@ def mixed_fraction(
     a = big_boy * small_boy_two_or_denomenator + small_boy_one_or_numerator
     b = [a, small_boy_two_or_denomenator]
     if print_statement:
-        p = str(b).replace("[", "").replace("]", "")
+        p = rb(b)
         print(f"Improper fraction: {p}")
     return b
 
@@ -139,7 +115,7 @@ def average(x: list[int], detail=False, print_statement=True):
     """
     if not len(x):
         return 0
-    le = str(x).replace("[", "").replace("]", "")
+    le = rb(x)
     c = sum(x)
     average_num = c / len(x)
     if print_statement:
@@ -173,7 +149,7 @@ def factors(x: int, print_statement=True):
     [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]
 
     >>> factors(0)
-    File "c:\\Users\\compuland\\Desktop\\Python Project\\python_work\\mathematics.py", line 185, in factors
+    File "~\Dev\mathematics.py", line 156, in factors
         raise FactorsError("Factors of {x} is unknown")
     FactorsError: Factors of 0 is unknown
     """  # noqa: E501
@@ -183,7 +159,7 @@ def factors(x: int, print_statement=True):
     result = [i for i in range(1, x) if x % i == 0]
     result.append(x)
     if print_statement:
-        p = str(result).replace("[", "").replace("]", "")
+        p = rb(result)
         print(f"The Factors of {x} are {p}")
 
     return result
@@ -206,11 +182,11 @@ def list_of_prime(n, print_statement=True):
     n += 1
     primes = [i for i in range(1, n) if check_prime(i, False)]
     if print_statement:
-        p = str(primes).replace("[", "").replace("]", "")
+        p = rb(primes)
         print(f"The list of prime numbers up to {n} is {p}")
     return primes
 
-
+# Basiclly math.gcd
 def hcf(a: int, b: int, print_statment=True):
     """Finds the HCF of a, b"""
     c, d = factors(a, False), factors(b, False)
@@ -243,12 +219,7 @@ def multiply_mixed_fractions_with_numbers(
     """
 
     b = mixed_fraction(x, n, d, False)
-    q = b[0]
-    w = b[1]
-    g = [a, 1]
-    r = hcf(w, a, False)
-    t = [w / r, g[0] / r]
-    y = t[1] * q
+    y = (a / hcf(b[1], a, False)) * b[0]
     if print_statement:
         print(f"The answer is {y}")
     return y
@@ -274,7 +245,7 @@ def multiples(integer: int, limit: int, print_statement=True):
     """  # noqa: E501
     multi = [integer * i for i in range(1, limit + 1)]
     if print_statement:
-        p = str(multi).replace("[", "").replace("]", "")
+        p = rb(multi)
         print(f"The list of multiples of {integer} with the limit of {limit} is {p}")
     return multi
 
@@ -356,9 +327,9 @@ def factorial(n: int, print_statement=True):
         raise OverflowError("n to large")
     if type(n) != int:
         raise FactorialError("Must be a integer")
-    import math
-
-    output = math.factorial(n)
+    output = 1
+    for o in range(1, n+1):
+        output *= o
     if print_statement:
         print(f"The Factorial of {n} is {output}")
     return output
@@ -420,7 +391,7 @@ def factorization(x:int, print_statement=True):
                 prime_factors.append(i)
                 break
     if print_statement:
-        p = str(prime_factors).replace("[", "").replace("]", "")
+        p = rb(prime_factors)
         d = p.replace(",", " x")
         print(f"The prime factors of {x} are {p} or {d}")
     return prime_factors
@@ -438,7 +409,7 @@ def list_of_squares(limit, print_statement=True):
     """Finds a list of squares with a limit of `limit`"""
     list_of_square = [square(i, False) for i in range(1, limit + 1)]
     if print_statement:
-        p = str(list_of_square).replace("[", "").replace("]", "")
+        p = rb(list_of_square)
         print(f"The list of square up to {limit} is {p}")
     return list_of_square
 
@@ -447,7 +418,7 @@ def list_of_even(x, print_statement=True):
     """Generate a list of even numbers up to `x`"""
     even_num_list = [i for i in range(1, x + 1) if is_even(i, False)]
     if print_statement:
-        p = str(even_num_list).replace("[", "").replace("]", "")
+        p = rb(even_num_list)
         print(f"The list of even number up to {x} is {p}")
     return even_num_list
 
@@ -456,7 +427,7 @@ def list_of_odd(x, print_statement=True):
     """Generate a list of odd numbers up to `x`"""
     odd_num_list = [i for i in range(1, x + 1) if not is_even(i)]
     if print_statement:
-        p = str(odd_num_list).replace("[", "").replace("]", "")
+        p = rb(odd_num_list)
         print(f"The list of odd number up to {x} is {p}")
     return odd_num_list
 
@@ -507,7 +478,7 @@ def perfect_cube(x, print_statement=True):
 
 def cube(x, print_statement=True):
     """Finds the cube of x"""
-    cube_x = square(x, False) * x
+    cube_x = x * x * x
     if print_statement:
         print(f"The cube of x is {cube_x}")
     return cube_x
@@ -517,7 +488,7 @@ def list_of_cubes(limit, print_statement=True):
     """Finds a list of cubes with a limit of `limit`"""
     list_of_cube = [cube(i) for i in range(1, limit + 1)]
     if print_statement:
-        p = str(list_of_cube).replace("[", "").replace("]", "")
+        p = rb(list_of_cube)
         print(f"The list of cube up to {limit} is {p}")
     return list_of_cube
 
@@ -538,7 +509,7 @@ def find_between_values(x: int, y: int, print_statement=True):
     values = list(range(x, y))
     del values[0]
     if print_statement:
-        p = str(values).replace("[", "").replace("]", "")
+        p = rb(values)
         print(f"The values between {x} and {y} is {p}")
 
 
@@ -546,7 +517,7 @@ def list_of_factorial(x, print_statement=True):
     """Get a list of factorial up to `x`"""
     list_factorial = [factorial(i, False) for i in range(x + 1)]
     if print_statement:
-        p = str(list_factorial).replace("[", "").replace("]", "")
+        p = rb(list_factorial)
         print(f"The List of factorial up to {x} is {p}")
     return list_factorial
 
@@ -597,12 +568,12 @@ def multiples_limit(number: int, limit: int, print_statement=True, num_end=False
             break
         multi.append(number * i)
     if print_statement:
-        p = str(multi).replace("[", "").replace("]", "")
+        p = rb(multi)
         print(f"The list of multiples of {number} with the limit of {limit} is {p}")
     return multi
 
 
-def find_perimeter(length, b, print_statement=True):
+def find_perimeter(length: int, b: int, print_statement=True):
     """Finds the perimeter of squares and rectangles"""
     perimeter = 2 * (length + b)
     if print_statement:
@@ -613,7 +584,7 @@ def find_perimeter(length, b, print_statement=True):
     return perimeter
 
 
-def median(list_of_num, print_statement=True):
+def median(list_of_num: list, print_statement=True):
     """Finds the median of a list"""
     from statistics import median
 
@@ -623,7 +594,7 @@ def median(list_of_num, print_statement=True):
     return median_num
 
 
-def mode(list_of_num, print_statement=True):
+def mode(list_of_num: list, print_statement=True):
     """Find the mode of a list"""
     from statistics import mode
 
@@ -633,7 +604,7 @@ def mode(list_of_num, print_statement=True):
     return mode_num
 
 
-def num_of_combinations(n, r, print_statement=True):
+def num_of_combinations(n: int, r: int, print_statement=True):
     """
     Finds the number of combinations of r items from a set of n items.
     Args:
@@ -670,7 +641,7 @@ def collatz_sequence(num: int, print_statement=True):
             num //= 2
             sequence.append(num)
     if print_statement:
-        seq = f"{sequence}".replace("[", "").replace("]", "")
+        seq = rb(sequence)
         print(seq)
     return sequence
 
@@ -718,7 +689,3 @@ def percentage_difference(original_number:int, new_number:int, steps=False, prin
     if print_statement:
         print(f"The answer is: {res}%")
     return res
-
-
-if __name__ == "__main__":
-    percentage_difference(50_000_000_000, 0, True)
